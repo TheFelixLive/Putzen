@@ -1,7 +1,7 @@
 {
     "name": "Push Notification App",
     "short_name": "Push App",
-    "start_url": "/",
+    "start_url": "https://thefelixlive.github.io/Putzen/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#007BFF",
