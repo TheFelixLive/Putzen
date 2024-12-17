@@ -23,13 +23,9 @@
         <h1>Küche</h1>
     </div>
 
-    <div class="symbol">
-        <img src="icons/room_3_selected.png">
-    </div>
-
     <div class="description">
-        <p>hier erscheinen deine Chats...</p>
-    </div>
+        <p id="output"></p>
+    </div>   
 
 
 
@@ -41,6 +37,38 @@
             <a href="room_3.html"><img src="icons/room_3_selected.png"></a>
             <a href="room_4.html"><img src="icons/room_4.png"></a>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Listen von Personen und Räumen
+            const personen = ['Jona', 'Jan', 'Nicoll', 'Sascha', 'Leonie'];
+            const raeume = ['room_0', 'room_1', 'room_2', 'room_3', 'room_4'];
+
+            // Berechnet die Kalenderwoche basierend auf dem Datum
+            function getISOWeek(date) {
+                const respinday = 5;
+                const tempDate = new Date(date.getTime());
+                tempDate.setDate(tempDate.getDate() - tempDate.getDay() + respinday); // Setze auf den ersten Montag
+                const firstMonday = new Date(tempDate.getFullYear(), 0, 1);
+                const dayOfYear = Math.floor((tempDate - firstMonday) / (1000 * 3600 * 24));
+                return Math.floor(dayOfYear / 7) + respinday;
+            }
+
+            // Berechnet die Person basierend auf dem aktuellen Datum und der Woche
+            function getPersonBasedOnTimeAndRoom(room) {
+                const unixTimestamp = Math.floor(Date.now() / 1000);  // Unix-Zeit in Sekunden
+                const date = new Date(unixTimestamp * 1000);  // Unix-Zeitstempel in Datum umwandeln
+                const currentWeek = getISOWeek(date);  // Korrekte Kalenderwoche berechnen
+                const roomIndex = raeume.indexOf(room);  // Finde den Index des Raums in der Liste
+                const personIndex = (roomIndex + currentWeek) % personen.length;  // Berechne den Person-Index je nach Woche
+
+                return personen[personIndex];
+            }
+
+            // Funktion für die manuelle Eingabe eines Raums
+            const person = getPersonBasedOnTimeAndRoom("room_3");
+            document.getElementById("output").innerText = `${person} - Noch 1d 5h 5m 5s Zeit`;
+        });
+    </script>
 
 </body>
 </html>
