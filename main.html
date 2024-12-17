@@ -1,0 +1,85 @@
+<!-- https://thefelixlive.github.io/Putzen/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Push Notification App</h1>
+    <p>Klicke den Button, um eine Push-Benachrichtigung zu senden.</p>
+    <button id="notifyButton">Send Notification</button>
+
+    <script>
+        const notifyButton = document.getElementById('notifyButton');
+
+        // Check for Notification API support
+        if (!('serviceWorker' in navigator)) {
+            alert('Service Worker wird nicht unterstützt.');
+        } else if (!('Notification' in window)) {
+            alert('Benachrichtigungen werden von diesem Browser nicht unterstützt.');
+        } else if (!('PushManager' in window)) {
+            alert('Push-Manager wird nicht unterstützt.');
+        } else {
+            console.log('Alles bereit für Push-Benachrichtigungen!');
+        }
+
+
+        notifyButton.addEventListener('click', () => {
+            // Check notification permission
+            if (Notification.permission === 'granted') {
+                // Show notification
+                showNotification();
+            } else if (Notification.permission === 'default') {
+                // Request permission from the user
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showNotification();
+                    } else {
+                        alert('Benachrichtigungsberechtigung wurde abgelehnt.');
+                    }
+                });
+            } else {
+                alert('Benachrichtigungen sind blockiert. Bitte aktiviere sie in den Browser-Einstellungen.');
+            }
+        });
+
+        function showNotification() {
+            const notification = new Notification('Hallo!', {
+                body: 'Dies ist eine Push-Benachrichtigung.',
+                icon: 'https://via.placeholder.com/100' // Replace with your own icon URL
+            });
+
+            // Optional: Handle click event on the notification
+            notification.onclick = () => {
+                window.focus();
+            };
+        }
+    </script>
+</body>
+</html>
+
