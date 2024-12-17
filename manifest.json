@@ -4,7 +4,7 @@
   "start_url": "room_0.html",
   "display": "standalone",
   "background_color": "#383838",
-  "theme_color": "#007BFF",
+  "theme_color": "#383838",
   "icons": [
     {
       "src": "icons/app_rounded.png",
