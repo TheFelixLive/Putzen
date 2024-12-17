@@ -1,46 +1,77 @@
 <!-- https://thefelixlive.github.io/Putzen/index.html -->
 
 <!DOCTYPE html>
-<html lang="de">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <title>Swipebay</title>
-        <link rel="icon" type="image/x-icon" href="ui/logo2.png">
-        <form action="" method="get">
-            <input id="suche" class="search-input" type="text" name="q" placeholder="Suchbegriff eingeben" required>
-        </form>
-    </head>
+    <title>Push Notification App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
 
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
+    <h1>Push Notification App</h1>
+    <p>Klicke den Button, um eine Push-Benachrichtigung zu senden.</p>
+    <button id="notifyButton">Send Notification</button>
 
-    <div id="swiper">
-     </div>
-     
-     <div id="ui_menu">
-        <ion-icon id="dislike" name="close-outline"></ion-icon>
-        <ion-icon id="like" name="heart"></ion-icon>
-    </div>
-    <div id="ui_menubar">
-        <!--This line would display the previous card, but this function isn't implemented yet:--> <ion-icon id="undo" name="arrow-undo-outline"></ion-icon>
-        <a href="messages.html"> <ion-icon id="message" name="chatbubbles-outline"></ion-icon></a>
-    </div>
-    
-    <script src="card.js"></script>
-    <script src="swipe.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        const notifyButton = document.getElementById('notifyButton');
 
-    <footer>
-        <div id="navigation">
-            <a href="user.html"><img src="ui/user.png"></a>
-            <a href="add.html"><img src="ui/add.png"></a>
-            <a href="index.html"><img src="ui/swipe2.png"></a>
-            <a href="messages.html"><img src="ui/messages.png"></a>
-            <a href="heart.html"><img src="ui/heart.png"></a>
-        </div>
-    </footer>
+        // Check for Notification API support
+        if (!('Notification' in window)) {
+            alert('Push-Benachrichtigungen werden von diesem Browser nicht unterstützt.');
+        }
 
+        notifyButton.addEventListener('click', () => {
+            // Check notification permission
+            if (Notification.permission === 'granted') {
+                // Show notification
+                showNotification();
+            } else if (Notification.permission === 'default') {
+                // Request permission from the user
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showNotification();
+                    } else {
+                        alert('Benachrichtigungsberechtigung wurde abgelehnt.');
+                    }
+                });
+            } else {
+                alert('Benachrichtigungen sind blockiert. Bitte aktiviere sie in den Browser-Einstellungen.');
+            }
+        });
+
+        function showNotification() {
+            const notification = new Notification('Hallo!', {
+                body: 'Dies ist eine Push-Benachrichtigung.',
+                icon: 'https://via.placeholder.com/100' // Replace with your own icon URL
+            });
+
+            // Optional: Handle click event on the notification
+            notification.onclick = () => {
+                window.focus();
+            };
+        }
+    </script>
 </body>
 </html>
