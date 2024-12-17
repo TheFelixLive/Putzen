@@ -15,7 +15,7 @@ body {
 }
 /*navigationsleiste unten*/
 #navigation {
-    height: 10vh; /* Mindesthöhe des Footers, die du anpassen kannst */
+    height: 15vh; /* Mindesthöhe des Footers, die du anpassen kannst */
     position: fixed; /* Fixiert das Menü am unteren Rand */
     bottom: 0;
     left: 0;
@@ -38,8 +38,9 @@ body {
 }
 /*anpassung der icons in der navigationsleiste*/
 #navigation img {
-    width: 12vw; /* Breite der Icons */
-    height: 12vw; /* Höhe der Icons */
+    margin-bottom: 5vh;
+    width: 15vw; /* Breite der Icons */
+    height: auto; /* Höhe der Icons */
     transition: transform 0.2s; /* Sanfte Animation beim Hover */
 }
 /*vergrößerung beim hover über den icons der navigationsleiste*/
