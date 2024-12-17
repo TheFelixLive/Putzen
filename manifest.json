@@ -1,10 +1,10 @@
 {
-    "name": "Push Notification App",
-    "short_name": "Push App",
-    "start_url": "https://thefelixlive.github.io/Putzen/main.html",
+    "name": "Putzplan",
+    "short_name": "Putzplan",
+    "start_url": "room_0.html",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#007BFF",
+    "background_color": "#383838",
+    "theme_color": "#ffffff",
     "icons": [
       {
         "src": "https://via.placeholder.com/192",
