@@ -1,8 +1,19 @@
 <!-- https://thefelixlive.github.io/Putzen/index.html -->
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+        <!-- Web App für iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Push App">
+
+    <!-- App-Icons für iOS (verschiedene Größen) -->
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Push Notification App</title>
@@ -38,9 +49,16 @@
         const notifyButton = document.getElementById('notifyButton');
 
         // Check for Notification API support
-        if (!('Notification' in window)) {
-            alert('Push-Benachrichtigungen werden von diesem Browser nicht unterstützt.');
+        if (!('serviceWorker' in navigator)) {
+            alert('Service Worker wird nicht unterstützt.');
+        } else if (!('Notification' in window)) {
+            alert('Benachrichtigungen werden von diesem Browser nicht unterstützt.');
+        } else if (!('PushManager' in window)) {
+            alert('Push-Manager wird nicht unterstützt.');
+        } else {
+            console.log('Alles bereit für Push-Benachrichtigungen!');
         }
+
 
         notifyButton.addEventListener('click', () => {
             // Check notification permission
