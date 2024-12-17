@@ -1,0 +1,76 @@
+ /*alles*/
+ *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;}
+
+
+/*die ganze seite*/
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+}
+/*navigationsleiste unten*/
+#navigation {
+    height: 8vh; /* Mindesthöhe des Footers, die du anpassen kannst */
+    position: fixed; /* Fixiert das Menü am unteren Rand */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #383838; /* Hintergrundfarbe */
+    display: flex; /* Flexbox für die Anordnung */
+    justify-content: space-around; /* Gleiche Abstände zwischen den Links */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Schatten für den Effekt */
+    z-index: 1000; /* Damit das Menü über anderen Elementen bleibt */
+    transition: opacity 0.2s ease; /* Übergang für das Ein- und Ausblenden */
+}
+
+/*anpassung der Links in der navigationsleiste*/
+#navigation a {
+    text-decoration: none; /* Entfernt Unterstreichung */
+    flex: 1; /* Macht jedes Link gleich breit */
+    display: flex; /* Flexbox für die Bildzentrierung */
+    justify-content: center; /* Zentriert die Bilder innerhalb der Links */
+    align-items: center; /* Vertikale Zentrierung der Bilder */
+}
+/*anpassung der icons in der navigationsleiste*/
+#navigation img {
+    width: 9vw; /* Breite der Icons */
+    height: 9vw; /* Höhe der Icons */
+    transition: transform 0.2s; /* Sanfte Animation beim Hover */
+}
+/*vergrößerung beim hover über den icons der navigationsleiste*/
+#navigation img:hover {
+    transform: scale(1.1); /* Vergrößerung beim Hover */
+}
+
+/*für die großen symbole/icons auf den leeren seiten*/
+  .symbol{
+    display: flex;
+    justify-content: center;
+    margin-top: 30vh;
+  }
+/*für die bilder der großen icons auf den leeren seiteb*/
+  .symbol img {
+    height: auto;
+    width: 40vw;
+    opacity: 0.5;
+    margin-bottom: 30px;
+  }
+/*für die beschreibung unter den großen icons auf den leeren seiten*/
+  .description {
+    text-align: center;
+    opacity: 0.5;
+    color: white;
+  }
+/*für die überschriften auf den seiten*/
+  .heading {
+    margin-top: 12px;
+    font-size: 150%;
+    align-content: flex-start;
+    opacity: 0.85;
+    text-align: center;
+    color: white;
+  }
