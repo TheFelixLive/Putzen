@@ -63,6 +63,7 @@ body {
   }
 /*für die beschreibung unter den großen icons auf den leeren seiten*/
   .description {
+    font-size: 120%;
     text-align: center;
     opacity: 0.5;
     color: white;
