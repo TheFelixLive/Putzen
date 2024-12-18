@@ -26,18 +26,7 @@
     <p id="zeitdifferenz">Berechne die Zeitdifferenz...</p>
 
     <script>
-        function formatTime(days, hours, minutes, seconds) {
-            // Entferne die überflüssigen Teile
-            let timeString = '';
-            if (days > 0) timeString += `${days}d `;
-            if (hours > 0 || days > 0) timeString += `${hours}h `;
-            if (minutes > 0 || hours > 0 || days > 0) timeString += `${minutes}m `;
-            timeString += `${seconds}s`;
-
-            return timeString.trim();
-        }
-
-        function formatTime(days, hours, minutes, seconds) {
+      function formatTime(days, hours, minutes, seconds) {
           // Entferne die überflüssigen Teile
           let timeString = '';
           if (days > 0) timeString += `${days}d `;
@@ -62,16 +51,16 @@
 
           const monday12_20PM = new Date(now);
           monday12_20PM.setDate(now.getDate() + (1 - currentDay + 7) % 7); // Nächster Montag
-          monday12_20PM.setHours(12, 20, 0, 0); // Montag 12:20
+          monday12_20PM.setHours(13, 0, 0, 0); // Montag 12:20
 
           // Berechnung des letzten Montags 12:20
           const lastMonday12_20PM = new Date(now);
           lastMonday12_20PM.setDate(now.getDate() - (currentDay + 6) % 7); // Letzter Montag
-          lastMonday12_20PM.setHours(12, 20, 0, 0); // Montag 12:20
+          lastMonday12_20PM.setHours(13, 0, 0, 0); // Montag 12:20
 
           let finished = true; // Beispielvariable
 
-          if (currentDay >= 5 || (currentDay === 4 && (currentHour > 9 || (currentHour === 9 && currentMinute >= 0)))) {
+          if ((currentDay === 5 && (currentHour > 8)) || currentDay === 6 || currentDay === 0 || (currentDay === 1 && (currentHour < 13))) {
               // Fall 1: Zwischen Freitag 9:00 und Montag 12:20
               const timeDiff = monday12_20PM - now;
               if (timeDiff > 0) {
@@ -112,14 +101,11 @@
           }
       }
 
+      // Berechne die Zeitdifferenz beim Laden der Seite
+      calculateTime();
 
-
-        // Berechne die Zeitdifferenz beim Laden der Seite
-        calculateTime();
-
-        // Optional: Aktualisierung 1 Sekunde
-        setInterval(calculateTime, 1000);
-
+      // Optional: Aktualisierung 1 Sekunde
+      setInterval(calculateTime, 1000);
     </script>
 
 </body>
