@@ -46,55 +46,62 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentHour = now.getHours();
         const currentMinute = now.getMinutes();
         const currentSecond = now.getSeconds();
-
-        // Zeit für Freitag 9:00 und Montag 12:20
+    
+        // Zeit für Freitag 9:00 und Montag 13:00
         const friday9AM = new Date(now);
         friday9AM.setDate(now.getDate() + (5 - currentDay + 7) % 7); // Nächster Freitag
         friday9AM.setHours(9, 0, 0, 0); // Freitag 9:00
-
+    
         const monday12_20PM = new Date(now);
         monday12_20PM.setDate(now.getDate() + (1 - currentDay + 7) % 7); // Nächster Montag
-        monday12_20PM.setHours(13, 0, 0, 0); // Montag 12:20
-
-        // Berechnung des letzten Montags 12:20
+        monday12_20PM.setHours(13, 0, 0, 0); // Montag 13:00
+    
+        // Berechnung des letzten Montags 13:00
         const lastMonday12_20PM = new Date(now);
         lastMonday12_20PM.setDate(now.getDate() - (currentDay + 6) % 7); // Letzter Montag
-        lastMonday12_20PM.setHours(13, 0, 0, 0); // Montag 12:20
-
-
+        lastMonday12_20PM.setHours(13, 0, 0, 0); // Montag 13:00
+    
         if (!finished) {
-            if ((currentDay === 5 && (currentHour > 8)) || currentDay === 6 || currentDay === 0 || (currentDay === 1 && (currentHour < 13))) {
-            // Fall 1: Zwischen Freitag 9:00 und Montag 12:20
-            const timeDiff = monday12_20PM - now;
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-            return "Noch " + formatTime(days, hours, minutes, seconds) + " Zeit";
+            if ((currentDay === 5 && (currentHour >= 9)) || currentDay === 6 || currentDay === 0 || (currentDay === 1 && (currentHour <= 13))) {
+                // Fall 1: Zwischen Freitag 9:00 und Montag 13:00
+                const timeDiff = monday12_20PM - now;
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    
+                return "Noch " + formatTime(days, hours, minutes, seconds) + " Zeit";
             } else {
-            // Fall 2: Zwischen Montag 12:20 und Freitag 9:00
-            // Berechne die vergangene Zeit seit dem letzten Montag 12:20
-            const timeDiff = now - lastMonday12_20PM;
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Tage
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Stunden
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // Minuten
-            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000); // Sekunden
-
-            return "Überfällig seit " + formatTime(days, hours, minutes, seconds) + "";
+                // Fall 2: Zwischen Montag 13:00 und Freitag 9:00
+                // Berechne die vergangene Zeit seit dem letzten Montag 13:00
+                const timeDiff = now - lastMonday12_20PM;
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Tage
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Stunden
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // Minuten
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000); // Sekunden
+    
+                return "Überfällig seit " + formatTime(days, hours, minutes, seconds) + "";
             }
         }
-
+    
         if (finished) {
+            // Falls es Freitag nach 9:00 Uhr ist, den Countdown für den nächsten Freitag berechnen
+            if (currentDay === 5 && currentHour >= 9) {
+                // Setze die Zeit für den nächsten Freitag 9:00
+                friday9AM.setDate(friday9AM.getDate() + 7); // Setzt das Datum auf den nächsten Freitag
+            }
+    
             // Zeige Zeit bis Freitag
             const timeDiffToFriday = friday9AM - now;
             const days = Math.floor(timeDiffToFriday / (1000 * 60 * 60 * 24)); // Tage
             const hours = Math.floor((timeDiffToFriday % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Stunden
             const minutes = Math.floor((timeDiffToFriday % (1000 * 60 * 60)) / (1000 * 60)); // Minuten
             const seconds = Math.floor((timeDiffToFriday % (1000 * 60)) / 1000); // Sekunden
+    
             return "Neuer Putzplan in " + formatTime(days, hours, minutes, seconds) + "";
         }
     }
+    
 
     // Zeigt Person und Zeitdifferenz an
     function update_subtitle() {
