@@ -114,13 +114,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return "Neuer Putzplan in " + formatTime(days, hours, minutes, seconds) + "";
         }
     }
+
+    const listItems = document.querySelectorAll(".task-list li");
+    listItems.forEach((item, index) => {
+      item.style.setProperty('--i', index + 1); // Setzt die CSS-Variable für jedes Element
+    });
     
 
     // Zeigt Person und Zeitdifferenz an
     function update_subtitle() {
         const timeDiff = calculateTime(true);
         const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
-        
+
         document.getElementById("output").innerText = `${person} - ${timeDiff}`;
     }
 

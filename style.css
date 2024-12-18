@@ -13,20 +13,120 @@ body {
     position: fixed;
     background-color: #383838;
 }
-/*navigationsleiste unten*/
-#navigation {
-    height: 13vh; /* Mindesthöhe des Footers, die du anpassen kannst */
-    position: fixed; /* Fixiert das Menü am unteren Rand */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #383838; /* Hintergrundfarbe */
-    display: flex; /* Flexbox für die Anordnung */
-    justify-content: space-around; /* Gleiche Abstände zwischen den Links */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Schatten für den Effekt */
-    z-index: 1000; /* Damit das Menü über anderen Elementen bleibt */
-    transition: opacity 0.2s ease; /* Übergang für das Ein- und Ausblenden */
+
+/* Container für die Aufgabe Liste */
+.task-list-container {
+  position: fixed; /* Fixiert den Container relativ zum Viewport */
+  top: 50%; /* Startet die Liste vertikal in der Mitte des Bildschirms */
+  left: 50%; /* Startet die Liste horizontal in der Mitte */
+  transform: translate(-50%, -50%); /* Zentriert den Container perfekt */
+  width: 80%; /* Breitere Liste für mehr Platz */
+  max-height: 80vh; /* Maximale Höhe der Liste */
+  overflow-y: auto; /* Aktiviert das Scrollen, wenn der Inhalt zu groß ist */
+  z-index: 999; /* Sicherstellen, dass es über dem Hintergrund liegt */
+  display: flex; /* Flexbox für die Anordnung */
+  flex-direction: column; /* Listeneinträge vertikal anordnen */
+  justify-content: center; /* Listeneinträge vertikal zentrieren */
+  align-items: center; /* Listeneinträge horizontal zentrieren */
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
+/* Styling für die Liste der Aufgaben */
+.task-list {
+  list-style-type: none; /* Entfernt die Standard-Punkte */
+  margin: 0;
+  padding-left: 0;
+  font-size: 2.5rem; /* Größere Schriftgröße */
+  color: #ffffff; /* Weiße Textfarbe */
+  opacity: 0; /* Anfangszustand unsichtbar */
+  animation: fadeInUp 1s ease-in-out forwards; /* Animation für das Einblenden */
+  display: flex;
+  flex-direction: column; /* Listeneinträge vertikal anordnen */
+  justify-content: center; /* Listeneinträge vertikal zentrieren */
+  align-items: center; /* Listeneinträge horizontal zentrieren */
+}
+
+/* Animation für das Einblenden der Liste von oben */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px); /* Startet leicht über der Endposition */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Endet an der gewünschten Position */
+  }
+}
+
+/* Styling für die Listenelemente */
+.task-list li {
+  margin-bottom: 10px; /* Abstand zwischen den Listenelementen */
+  padding-left: 40px; /* Einrückung für die Listeneinträge */
+  position: relative;
+  opacity: 0; /* Anfangszustand unsichtbar */
+  animation: fadeInItem 0.5s ease-in-out forwards; /* Animation für jedes Listenelement */
+  font-family: "Arial", sans-serif; /* Sans-serif-Schriftart */
+}
+
+/* Verzögerung für jedes Listenelement basierend auf seiner Position */
+.task-list li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.task-list li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.task-list li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Verzögerung für jedes weitere Element */
+.task-list li:nth-child(n+4) {
+  animation-delay: calc(0.1s * var(--i)); /* Verzögerung basierend auf der Position */
+}
+
+/* Animation für das Einblenden der Listeneinträge */
+@keyframes fadeInItem {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px); /* Startet leicht über der Endposition */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Endet an der gewünschten Position */
+  }
+}
+
+/* Hinzufügen des "•" (Punktsymbol) vor jedem Listenelement */
+.task-list li::before {
+  content: "• "; /* Setzt den Punkt vor jedes Listenelement */
+  color: white;
+  font-size: 2.5rem; /* Gleiche Schriftgröße wie der Text */
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+}
+
+
+
+
+/* Navigationsleiste unten fixieren */
+#navigation {
+  height: 13vh; /* Mindesthöhe des Footers, die du anpassen kannst */
+  position: fixed; /* Fixiert das Menü am unteren Rand */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #383838; /* Hintergrundfarbe */
+  display: flex; /* Flexbox für die Anordnung */
+  justify-content: space-around; /* Gleiche Abstände zwischen den Links */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Schatten für den Effekt */
+  z-index: 1000; /* Navigationsleiste immer im Vordergrund */
+  transition: opacity 0.2s ease; /* Übergang für das Ein- und Ausblenden */
+}
+
 
 /*anpassung der Links in der navigationsleiste*/
 #navigation a {
