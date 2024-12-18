@@ -14,37 +14,39 @@ body {
     background-color: #383838;
 }
 
-/* Container für die Aufgabe Liste */
+/* Styling für den Container der Aufgabenliste */
 .task-list-container {
-  position: fixed; /* Fixiert den Container relativ zum Viewport */
-  top: 50%; /* Startet die Liste vertikal in der Mitte des Bildschirms */
-  left: 50%; /* Startet die Liste horizontal in der Mitte */
-  transform: translate(-50%, -50%); /* Zentriert den Container perfekt */
-  width: 80%; /* Breitere Liste für mehr Platz */
-  max-height: 80vh; /* Maximale Höhe der Liste */
-  overflow-y: auto; /* Aktiviert das Scrollen, wenn der Inhalt zu groß ist */
-  z-index: 999; /* Sicherstellen, dass es über dem Hintergrund liegt */
-  display: flex; /* Flexbox für die Anordnung */
-  flex-direction: column; /* Listeneinträge vertikal anordnen */
-  justify-content: center; /* Listeneinträge vertikal zentrieren */
-  align-items: center; /* Listeneinträge horizontal zentrieren */
-  padding-top: 10px;
-  padding-bottom: 10px;
+  position: fixed;    /* Fixiert den Container relativ zum Viewport */
+  top: 50%;           /* Vertikale Positionierung in der Mitte des Bildschirms */
+  left: 50%;          /* Horizontale Positionierung in der Mitte des Bildschirms */
+  transform: translate(-50%, -50%);  /* Zentriert den Container sowohl horizontal als auch vertikal */
+  width: 90vw;        /* Breite von maximal 90% der Viewport-Breite */
+  height: 80vh;       /* Höhe von maximal 80% der Viewport-Höhe */
+  display: flex;      /* Flexbox für das Zentrieren der Liste */
+  justify-content: center; /* Zentriert die Liste innerhalb des Containers */
+  align-items: center; /* Vertikale Zentrierung der Liste */
+  z-index: 999;       /* Stellt sicher, dass der Container über dem Hintergrund liegt */
 }
 
 /* Styling für die Liste der Aufgaben */
 .task-list {
-  list-style-type: none; /* Entfernt die Standard-Punkte */
-  margin: 0;
-  padding-left: 0;
-  font-size: 2rem; /* Größere Schriftgröße */
-  color: #ffffff; /* Weiße Textfarbe */
-  opacity: 0; /* Anfangszustand unsichtbar */
-  animation: fadeInUp 1s ease-in-out forwards; /* Animation für das Einblenden */
-  display: flex;
-  flex-direction: column; /* Listeneinträge vertikal anordnen */
-  justify-content: center; /* Listeneinträge vertikal zentrieren */
-  align-items: center; /* Listeneinträge horizontal zentrieren */
+  width: 100%;        /* Die Liste füllt den Container */
+  height: 100%;       /* Die Liste nimmt die gesamte Höhe des Containers ein */
+  font-size: 2.5rem;  /* Größere Schriftgröße */
+  color: white;       /* Weiße Textfarbe */
+  list-style-type: none;  /* Entfernt die Standard-Punkte */
+  padding-left: 0;    /* Entfernt das Padding der Liste */
+  overflow-y: auto;   /* Aktiviert das Scrollen, wenn der Inhalt zu groß ist */
+  opacity: 0;         /* Anfangszustand unsichtbar */
+  animation: fadeInUp 1s ease-in-out forwards;  /* Animation zum Einblenden und Hochkommen */
+  z-index: 999;       /* Stellt sicher, dass die Liste über dem Hintergrund liegt */
+  
+  display: flex;      /* Flexbox für korrekte Zentrierung der Listeneinträge */
+  flex-direction: column;  /* Listeneinträge vertikal anordnen */
+  justify-content: flex-start; /* Listeneinträge oben anordnen */
+  align-items: center; /* Horizontale Zentrierung */
+  padding-top: 10px;   /* Zusätzlicher Abstand oben */
+  padding-bottom: 10px; /* Zusätzlicher Abstand unten */
 }
 
 /* Animation für das Einblenden der Liste von oben */
@@ -59,30 +61,30 @@ body {
   }
 }
 
-/* Styling für die Listenelemente */
+/* Styling für die Listeneinträge */
 .task-list li {
   margin-bottom: 10px; /* Abstand zwischen den Listenelementen */
-  padding-left: 40px; /* Einrückung für die Listeneinträge */
+  padding-left: 40px;  /* Einrückung für die Listeneinträge */
   position: relative;
-  opacity: 0; /* Anfangszustand unsichtbar */
-  animation: fadeInItem 0.5s ease-in-out forwards; /* Animation für jedes Listenelement */
-  font-family: "Arial", sans-serif; /* Sans-serif-Schriftart */
+  opacity: 0;          /* Anfangszustand unsichtbar */
+  animation: fadeInItem 0.5s ease-in-out forwards; /* Animiert jedes Listenelement einzeln */
+  font-family: "Arial", sans-serif; /* Optional: Sans-serif-Schriftart für Klarheit */
 }
 
 /* Verzögerung für jedes Listenelement basierend auf seiner Position */
 .task-list li:nth-child(1) {
-  animation-delay: 0.1s;
+  animation-delay: 0.1s; /* Verzögert die Animation des ersten Elements */
 }
 
 .task-list li:nth-child(2) {
-  animation-delay: 0.2s;
+  animation-delay: 0.2s; /* Verzögert die Animation des zweiten Elements */
 }
 
 .task-list li:nth-child(3) {
-  animation-delay: 0.3s;
+  animation-delay: 0.3s; /* Verzögert die Animation des dritten Elements */
 }
 
-/* Verzögerung für jedes weitere Element */
+/* Proportionale Verzögerung für jedes Element */
 .task-list li:nth-child(n+4) {
   animation-delay: calc(0.1s * var(--i)); /* Verzögerung basierend auf der Position */
 }
@@ -98,6 +100,7 @@ body {
     transform: translateY(0); /* Endet an der gewünschten Position */
   }
 }
+
 
 /* Hinzufügen des "•" (Punktsymbol) vor jedem Listenelement */
 .task-list li::before {
