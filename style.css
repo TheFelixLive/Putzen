@@ -37,7 +37,7 @@ body {
   list-style-type: none; /* Entfernt die Standard-Punkte */
   margin: 0;
   padding-left: 0;
-  font-size: 2.5rem; /* Größere Schriftgröße */
+  font-size: 2rem; /* Größere Schriftgröße */
   color: #ffffff; /* Weiße Textfarbe */
   opacity: 0; /* Anfangszustand unsichtbar */
   animation: fadeInUp 1s ease-in-out forwards; /* Animation für das Einblenden */

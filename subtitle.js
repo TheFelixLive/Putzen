@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Listen von Personen und Räumen
-    const personen = ['Jona', 'Jan', 'Nicoll', 'Sascha', 'Leonie'];
+    const personen = ['Jona', 'Nicoll', 'Jan', 'Leonie', 'Sascha'];
     const raeume = ['room_0', 'room_1', 'room_2', 'room_3', 'room_4'];
 
     // Berechnet die Kalenderwoche basierend auf dem Datum
