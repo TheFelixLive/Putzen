@@ -12,16 +12,34 @@ document.addEventListener('DOMContentLoaded', function () {
         return Math.floor(dayOfYear / 7) + 1;
     }
 
+    // Berechnet, ob der aktuelle Zeitpunkt vor oder nach dem nächsten Freitag um 9:00 Uhr liegt
+    function isBeforeFridayNineAM() {
+        const now = new Date();
+        const friday9AM = new Date(now);
+        
+        // Setze auf den kommenden Freitag
+        friday9AM.setDate(now.getDate() + ((5 - now.getDay() + 7) % 7)); // Nächster Freitag
+        friday9AM.setHours(9, 0, 0, 0); // Setze die Uhrzeit auf 9:00 Uhr
+
+        return now < friday9AM;
+    }
+
     // Berechnet die Person basierend auf dem aktuellen Datum und der Woche
     function getPersonBasedOnTimeAndRoom(room) {
         const unixTimestamp = Math.floor(Date.now() / 1000);  // Unix-Zeit in Sekunden
         const date = new Date(unixTimestamp * 1000);  // Unix-Zeitstempel in Datum umwandeln
         const currentWeek = getISOWeek(date);  // Korrekte Kalenderwoche berechnen
         const roomIndex = raeume.indexOf(room);  // Finde den Index des Raums in der Liste
-        const personIndex = (roomIndex + currentWeek) % personen.length;  // Berechne den Person-Index je nach Woche
+
+        // Prüfe, ob der Zeitpunkt vor oder nach dem nächsten Freitag um 9:00 Uhr liegt
+        const weekOffset = isBeforeFridayNineAM() ? currentWeek - 1 : currentWeek; // Wenn noch vor Freitag 9:00 Uhr, dann vorige Woche
+
+        // Berechne den Person-Index je nach Woche
+        const personIndex = (roomIndex + weekOffset) % personen.length;
 
         return personen[personIndex];
     }
+
 
     // Funktion für die manuelle Eingabe eines Raums
     const room = document.body.getAttribute('data-room');  // Hole den Wert des data-room Attributs
