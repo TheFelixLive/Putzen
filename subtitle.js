@@ -32,18 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const roomIndex = raeume.indexOf(room);  // Finde den Index des Raums in der Liste
 
         // Prüfe, ob der Zeitpunkt vor oder nach dem nächsten Freitag um 9:00 Uhr liegt
-        const weekOffset = isBeforeFridayNineAM() ? currentWeek - 1 : currentWeek; // Wenn noch vor Freitag 9:00 Uhr, dann vorige Woche
+        const weekOffset = isBeforeFridayNineAM() ? currentWeek + 1 : currentWeek; // Wenn noch vor Freitag 9:00 Uhr, dann vorige Woche
 
         // Berechne den Person-Index je nach Woche
         const personIndex = (roomIndex + weekOffset) % personen.length;
 
         return personen[personIndex];
     }
-
-
-    // Funktion für die manuelle Eingabe eines Raums
-    const room = document.body.getAttribute('data-room');  // Hole den Wert des data-room Attributs
-    const person = getPersonBasedOnTimeAndRoom(room);       // Benutze den dynamischen Raumwert
 
 
     // Zeitdifferenz aus time.js holen
@@ -124,6 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Zeigt Person und Zeitdifferenz an
     function update_subtitle() {
         const timeDiff = calculateTime(true);
+        const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
+        
         document.getElementById("output").innerText = `${person} - ${timeDiff}`;
     }
 
