@@ -43,12 +43,11 @@
 
             // Berechnet die Kalenderwoche basierend auf dem Datum
             function getISOWeek(date) {
-                const respinday = 5;
                 const tempDate = new Date(date.getTime());
-                tempDate.setDate(tempDate.getDate() - tempDate.getDay() + respinday); // Setze auf den ersten Montag
+                tempDate.setDate(tempDate.getDate() - tempDate.getDay() + 5); // Setze auf den ersten Montag
                 const firstMonday = new Date(tempDate.getFullYear(), 0, 1);
                 const dayOfYear = Math.floor((tempDate - firstMonday) / (1000 * 3600 * 24));
-                return Math.floor(dayOfYear / 7) + respinday;
+                return Math.floor(dayOfYear / 7) + 1;
             }
 
             // Berechnet die Person basierend auf dem aktuellen Datum und der Woche

@@ -11,11 +11,12 @@
 
     // Berechnet die Kalenderwoche basierend auf dem Datum
     function getISOWeek(date) {
+        const respinday = 5;
         const tempDate = new Date(date.getTime());
-        tempDate.setDate(tempDate.getDate() - tempDate.getDay() + 1); // Setze auf den ersten Montag
+        tempDate.setDate(tempDate.getDate() - tempDate.getDay() + respinday); // Setze auf den ersten Montag
         const firstMonday = new Date(tempDate.getFullYear(), 0, 1);
         const dayOfYear = Math.floor((tempDate - firstMonday) / (1000 * 3600 * 24));
-        return Math.floor(dayOfYear / 7) + 1;
+        return Math.floor(dayOfYear / 7) + respinday;
     }
 
     // Berechnet die Person basierend auf dem aktuellen Datum und der Woche
@@ -29,72 +30,15 @@
         return personen[personIndex];
     }
 
-    // Berechnet die Zeit bis zur nächsten Änderung
-    function getTimeUntilNextChange(finished) {
-        const now = new Date();
-        const monday12_20 = new Date(now);
-        const friday09_00 = new Date(now);
 
-        // Setze Montag auf 12:20
-        monday12_20.setDate(now.getDate() - now.getDay() + 1);  // Nächsten Montag
-        monday12_20.setHours(12, 20, 0, 0);
-
-        // Setze Freitag auf 09:00
-        friday09_00.setDate(now.getDate() + (5 - now.getDay() + 7) % 7);  // Nächsten Freitag
-        friday09_00.setHours(9, 0, 0, 0);
-
-        let output = "";
-        
-        if (finished === 1) {
-            // Berechne Zeit bis Freitag 9:00 Uhr
-            if (now < friday09_00) {
-                const timeDiff = friday09_00 - now;
-                const { days, hours, minutes, seconds } = getTimeDetails(timeDiff);
-                output = `Zeit bis zur Übersetzung: ${days} Tage(n), ${hours} Stunde(n), ${minutes} Minute(n) und ${seconds} Sekunde(n).`;
-            } else {
-                output = "Die Übersetzung wurde bereits durchgeführt.";
-            }
-        } else if (finished === 0) {
-            // Berechne Zeit seit Montag 12:20 Uhr
-            if (now >= monday12_20 && now < friday09_00) {
-                const timeDiff = now - monday12_20;
-                const { days, hours, minutes, seconds } = getTimeDetails(timeDiff);
-                output = `Du bist zu spät: ${days} Tage(n), ${hours} Stunde(n), ${minutes} Minute(n) und ${seconds} Sekunde(n) seit Montag, 12:20 Uhr.`;
-            } else {
-                output = "Es ist noch nicht zu spät.";
-            }
-        } else {
-            // Berechne Zeit bis Montag 12:20 Uhr (Freitag 9:00 bis Montag 12:20)
-            if (now >= friday09_00) {
-                const timeDiff = monday12_20 - now;
-                const { days, hours, minutes, seconds } = getTimeDetails(timeDiff);
-                output = `Verbleibende Zeit: ${days} Tage(n), ${hours} Stunde(n), ${minutes} Minute(n) und ${seconds} Sekunde(n) bis Montag, 12:20 Uhr.`;
-            } else {
-                output = "Noch nicht im Zeitraum zwischen Freitag und Montag.";
-            }
-        }
-
-        return output;
-    }
-
-    // Hilfsfunktion, um die Zeitdifferenz in Tagen, Stunden, Minuten und Sekunden zu berechnen
-    function getTimeDetails(timeDiff) {
-        const days = Math.floor(timeDiff / (1000 * 3600 * 24));
-        const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
-        const minutes = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-        return { days, hours, minutes, seconds };
-    }
 
     // Funktion für die manuelle Eingabe eines Raums
     function handleRoomInput() {
       const roomInput = document.getElementById("roomInput").value;
-      const finished = parseInt(document.getElementById("finishedInput").value); // Nimmt den "finished"-Parameter
       if (raeume.includes(roomInput)) {
         const person = getPersonBasedOnTimeAndRoom(roomInput);
-        const timeMessage = getTimeUntilNextChange(finished);
         
-        document.getElementById("output").innerText = `${timeMessage}\nZugewiesene Person für ${roomInput}: ${person}`;
+        document.getElementById("output").innerText = `Zugewiesene Person für ${roomInput}: ${person}`;
       } else {
         document.getElementById("output").innerText = "Ungültiger Raum!";
       }
@@ -106,8 +50,6 @@
 
   <label for="roomInput">Raum auswählen:</label>
   <input type="text" id="roomInput" placeholder="room_0 bis room_4" />
-  <label for="finishedInput">Fertig (finished):</label>
-  <input type="number" id="finishedInput" min="0" max="1" placeholder="0 oder 1" />
   <button onclick="handleRoomInput()">Person anzeigen</button>
 
   <p id="output"></p>
