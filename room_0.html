@@ -61,9 +61,61 @@
                 return personen[personIndex];
             }
 
+            function calculateTime(finished) {
+                const now = new Date();
+
+                // Create Friday 9:00 and Monday 12:20 dates for comparison
+                const fridayMorning = new Date(now);
+                fridayMorning.setDate(now.getDate() + ((5 - now.getDay() + 7) % 7));
+                fridayMorning.setHours(9, 0, 0, 0);
+
+                const mondayNoon = new Date(now);
+                mondayNoon.setDate(now.getDate() + ((1 - now.getDay() + 7) % 7));
+                mondayNoon.setHours(12, 20, 0, 0);
+
+                let targetTime, delta;
+
+                if (now >= fridayMorning && now < mondayNoon) {
+                    // Case 1: Between Friday 9:00 and Monday 12:20
+                    targetTime = mondayNoon;
+                    delta = targetTime - now;
+                } else {
+                    // Case 2: Between Monday 12:20 and Friday 9:00
+                    if (now < fridayMorning) {
+                        targetTime = fridayMorning;
+                        delta = finished ? now - mondayNoon : targetTime - now;
+                    } else {
+                        // Adjust for past the current week's Friday
+                        const nextMondayNoon = new Date(mondayNoon);
+                        nextMondayNoon.setDate(mondayNoon.getDate() + 7);
+                        targetTime = nextMondayNoon;
+                        delta = targetTime - now;
+                    }
+                }
+
+                return formatDelta(delta);
+            }
+
+            function formatDelta(delta) {
+                const seconds = Math.floor(delta / 1000) % 60;
+                const minutes = Math.floor(delta / (1000 * 60)) % 60;
+                const hours = Math.floor(delta / (1000 * 60 * 60)) % 24;
+                const days = Math.floor(delta / (1000 * 60 * 60 * 24));
+
+                const parts = [];
+                if (days > 0) parts.push(`${days}d`);
+                if (hours > 0) parts.push(`${hours}h`);
+                if (minutes > 0 || parts.length > 0) parts.push(`${minutes}m`);
+                if (seconds > 0 || parts.length > 0) parts.push(`${seconds}s`);
+
+                return parts.join(' ');
+            }
+
             // Funktion für die manuelle Eingabe eines Raums
             const person = getPersonBasedOnTimeAndRoom("room_0");
-            document.getElementById("output").innerText = `${person} - Noch 1d 5h 5m 5s Zeit`;
+            const time = calculateTime(true);
+
+            document.getElementById("output").innerText = `${person} - Noch ${time} Zeit`;
         });
     </script>
 </body>

@@ -1,58 +1,113 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Person-Zuordnung basierend auf Unix-Zeit und Woche</title>
-  <script>
-    // Listen von Personen und Räumen
-    const personen = ['person_0', 'person_1', 'person_2', 'person_3', 'person_4'];
-    const raeume = ['room_0', 'room_1', 'room_2', 'room_3', 'room_4'];
-
-    // Berechnet die Kalenderwoche basierend auf dem Datum
-    function getISOWeek(date) {
-        const respinday = 5;
-        const tempDate = new Date(date.getTime());
-        tempDate.setDate(tempDate.getDate() - tempDate.getDay() + respinday); // Setze auf den ersten Montag
-        const firstMonday = new Date(tempDate.getFullYear(), 0, 1);
-        const dayOfYear = Math.floor((tempDate - firstMonday) / (1000 * 3600 * 24));
-        return Math.floor(dayOfYear / 7) + respinday;
-    }
-
-    // Berechnet die Person basierend auf dem aktuellen Datum und der Woche
-    function getPersonBasedOnTimeAndRoom(room) {
-        const unixTimestamp = Math.floor(Date.now() / 1000);  // Unix-Zeit in Sekunden
-        const date = new Date(unixTimestamp * 1000);  // Unix-Zeitstempel in Datum umwandeln
-        const currentWeek = getISOWeek(date);  // Korrekte Kalenderwoche berechnen
-        const roomIndex = raeume.indexOf(room);  // Finde den Index des Raums in der Liste
-        const personIndex = (roomIndex + currentWeek) % personen.length;  // Berechne den Person-Index je nach Woche
-
-        return personen[personIndex];
-    }
-
-
-
-    // Funktion für die manuelle Eingabe eines Raums
-    function handleRoomInput() {
-      const roomInput = document.getElementById("roomInput").value;
-      if (raeume.includes(roomInput)) {
-        const person = getPersonBasedOnTimeAndRoom(roomInput);
-        
-        document.getElementById("output").innerText = `Zugewiesene Person für ${roomInput}: ${person}`;
-      } else {
-        document.getElementById("output").innerText = "Ungültiger Raum!";
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeitdifferenz Berechnung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 24px;
+            color: #555;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Person-Zuordnung basierend auf Unix-Zeit und Kalenderwoche</h1>
 
-  <label for="roomInput">Raum auswählen:</label>
-  <input type="text" id="roomInput" placeholder="room_0 bis room_4" />
-  <button onclick="handleRoomInput()">Person anzeigen</button>
+    <h1>Zeitdifferenz zwischen Freitag und Montag</h1>
+    <p id="zeitdifferenz">Berechne die Zeitdifferenz...</p>
 
-  <p id="output"></p>
+    <script>
+        function formatTime(days, hours, minutes, seconds) {
+            // Entferne die überflüssigen Teile
+            let timeString = '';
+            if (days > 0) timeString += `${days}d `;
+            if (hours > 0 || days > 0) timeString += `${hours}h `;
+            if (minutes > 0 || hours > 0 || days > 0) timeString += `${minutes}m `;
+            timeString += `${seconds}s`;
+
+            return timeString.trim();
+        }
+
+        function calculateTime() {
+          const now = new Date();
+          const currentDay = now.getDay(); // 0 = Sonntag, 1 = Montag, ..., 6 = Samstag
+          const currentHour = now.getHours();
+          const currentMinute = now.getMinutes();
+          const currentSecond = now.getSeconds();
+
+          // Zeit für Freitag 9:00 und Montag 12:20
+          const friday9AM = new Date(now);
+          friday9AM.setDate(now.getDate() + (5 - currentDay + 7) % 7); // Nächster Freitag
+          friday9AM.setHours(9, 0, 0, 0); // Freitag 9:00
+
+          const monday12_20PM = new Date(now);
+          monday12_20PM.setDate(now.getDate() + (1 - currentDay + 7) % 7); // Nächster Montag
+          monday12_20PM.setHours(12, 20, 0, 0); // Montag 12:20
+
+          // Berechnung des letzten Montags 12:20
+          const lastMonday12_20PM = new Date(now);
+          lastMonday12_20PM.setDate(now.getDate() - (currentDay + 6) % 7); // Letzter Montag
+          lastMonday12_20PM.setHours(12, 20, 0, 0); // Montag 12:20
+
+          let finished = false; // Beispielvariable
+
+          if (currentDay >= 5 || (currentDay === 4 && (currentHour > 9 || (currentHour === 9 && currentMinute >= 0)))) {
+              // Fall 1: Zwischen Freitag 9:00 und Montag 12:20
+              const timeDiff = monday12_20PM - now;
+              if (timeDiff > 0) {
+                  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                  document.getElementById("zeitdifferenz").textContent = formatTime(days, hours, minutes, seconds);
+              } else {
+                  // Wenn die Zeit bereits nach Montag 12:20 liegt, berechne Zeit bis Freitag
+                  const timeDiffToFriday = friday9AM - now;
+                  const days = Math.floor(timeDiffToFriday / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeDiffToFriday % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeDiffToFriday % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeDiffToFriday % (1000 * 60)) / 1000);
+                  document.getElementById("zeitdifferenz").textContent = formatTime(days, hours, minutes, seconds);
+              }
+          } else {
+              // Fall 2: Zwischen Montag 12:20 und Freitag 9:00
+              if (finished) {
+                  // Berechne die vergangene Zeit seit dem letzten Montag 12:20
+                  const timeDiff = now - lastMonday12_20PM;
+                  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                  document.getElementById("zeitdifferenz").textContent = formatTime(days, hours, minutes, seconds);
+              } else {
+                  // Zeige Zeit bis Freitag
+                  const timeDiffToFriday = friday9AM - now;
+                  const days = Math.floor(timeDiffToFriday / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeDiffToFriday % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeDiffToFriday % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeDiffToFriday % (1000 * 60)) / 1000);
+                  document.getElementById("zeitdifferenz").textContent = formatTime(days, hours, minutes, seconds);
+                }
+            }
+        }
+
+
+        // Berechne die Zeitdifferenz beim Laden der Seite
+        calculateTime();
+
+        // Optional: Aktualisierung 1 Sekunde
+        setInterval(calculateTime, 1000);
+
+    </script>
 
 </body>
 </html>

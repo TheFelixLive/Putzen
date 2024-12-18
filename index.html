@@ -43,9 +43,9 @@
 <body>
     <div class="container">
         <h1>Web-App hinzufügen</h1>
-        <p id="instruction" class="mobile-only">Bitte füge diese Seite zu deinem Home-Bildschirm hinzu, um sie als Web-App zu verwenden.</p>
-        <p class="desktop-only">Bitte füge diese Seite zu deinem Home-Bildschirm auf deinem Smartphone hinzu, um sie als Web-App zu verwenden.</p>
-        <img src="icons/qr_code.png" alt="Scan this code with your phone!" style="width:auto;height:90vw; margin-top: 1vh;">
+        <p id="instruction"></p>
+
+        <img id="qrCode" src="icons/qr_code.png" alt="Scan this code with your phone!" style="width:auto;height:90vw; margin-top: 1vh;">
 
     </div>
 
@@ -55,13 +55,16 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        // Redirect or show the add-to-home-screen instruction
-        if (isMobile()) {
-            document.querySelector('.mobile-only').style.display = 'block';
-            document.querySelector('.desktop-only').style.display = 'block';
-        } else {
-            //window.location.href = 'room_0.html';
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Redirect or show the add-to-home-screen instruction
+            if (isMobile()) {
+                document.getElementById("instruction").innerText = "Bitte füge diese Seite zu deinem Home-Bildschirm hinzu, um sie als Web-App zu verwenden.";
+                document.getElementById("qrCode").style.display = "none";
+            } else {
+                document.getElementById("instruction").innerText = "Bitte füge diese Seite zu deinem Home-Bildschirm auf deinem Smartphone hinzu, um sie als Web-App zu verwenden.";
+                // window.location.href = 'room_0.html';
+            }
+        });
     </script>
 <body>
 </html>
