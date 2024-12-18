@@ -21,7 +21,7 @@ body {
   left: 50%;          /* Horizontale Positionierung in der Mitte des Bildschirms */
   transform: translate(-50%, -50%);  /* Zentriert den Container sowohl horizontal als auch vertikal */
   width: 90vw;        /* Breite von maximal 90% der Viewport-Breite */
-  height: 80vh;       /* Höhe von maximal 80% der Viewport-Höhe */
+  height: 70vh;       /* Höhe von maximal 80% der Viewport-Höhe */
   display: flex;      /* Flexbox für das Zentrieren der Liste */
   justify-content: center; /* Zentriert die Liste innerhalb des Containers */
   align-items: center; /* Vertikale Zentrierung der Liste */
@@ -32,7 +32,7 @@ body {
 .task-list {
   width: 100%;        /* Die Liste füllt den Container */
   height: 100%;       /* Die Liste nimmt die gesamte Höhe des Containers ein */
-  font-size: 2.5rem;  /* Größere Schriftgröße */
+  font-size: 2rem;  /* Größere Schriftgröße */
   color: white;       /* Weiße Textfarbe */
   list-style-type: none;  /* Entfernt die Standard-Punkte */
   padding-left: 0;    /* Entfernt das Padding der Liste */
