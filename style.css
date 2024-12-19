@@ -130,6 +130,14 @@ body {
   transition: opacity 0.2s ease; /* Übergang für das Ein- und Ausblenden */
 }
 
+/*anpassung der icons in der navigationsleiste*/
+#navigation img {
+  margin-bottom: 3vh;
+  width: 15vw; /* Breite der Icons */
+  height: 15vw; /* Höhe der Icons */
+  transition: transform 0.2s; /* Sanfte Animation beim Hover */
+}
+
 
 /*anpassung der Links in der navigationsleiste*/
 #navigation a {
@@ -139,44 +147,77 @@ body {
     justify-content: center; /* Zentriert die Bilder innerhalb der Links */
     align-items: center; /* Vertikale Zentrierung der Bilder */
 }
-/*anpassung der icons in der navigationsleiste*/
-#navigation img {
-    margin-bottom: 3vh;
-    width: 15vw; /* Breite der Icons */
-    height: auto; /* Höhe der Icons */
-    transition: transform 0.2s; /* Sanfte Animation beim Hover */
-}
+
+
 /*vergrößerung beim hover über den icons der navigationsleiste*/
 #navigation img:hover {
     transform: scale(1.1); /* Vergrößerung beim Hover */
 }
 
-/*für die großen symbole/icons auf den leeren seiten*/
-  .symbol{
-    display: flex;
-    justify-content: center;
-    margin-top: 30vh;
-  }
-/*für die bilder der großen icons auf den leeren seiteb*/
-  .symbol img {
-    height: auto;
-    width: 40vw;
-    opacity: 0.5;
-    margin-bottom: 30px;
-  }
 /*für die beschreibung unter den großen icons auf den leeren seiten*/
-  .description {
-    font-size: 120%;
-    text-align: center;
-    opacity: 0.5;
-    color: white;
-  }
+.description {
+  font-size: 120%;
+  text-align: center;
+  opacity: 0.5;
+  color: white;
+}
 /*für die überschriften auf den seiten*/
-  .heading {
-    margin-top: 12px;
-    font-size: 150%;
-    align-content: flex-start;
-    opacity: 0.85;
-    text-align: center;
-    color: white;
-  }
+.heading {
+  margin-top: 12px;
+  font-size: 150%;
+  align-content: flex-start;
+  opacity: 0.85;
+  text-align: center;
+  color: white;
+}
+
+/* Zentrieren und größere Registrierung-Box */
+.registration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  text-align: center;
+  width: 100vw; /* Breite der Box verdoppeln */
+  height: 60vh; /* Höhe verdoppeln */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Box wird genau zentriert */
+  border-radius: 10px;
+  color: white;
+}
+
+/* Anpassung der Formularelemente */
+.registration form {
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  width: 80%;
+}
+
+/* Buttons für Registrierung */
+.registration input {
+  border: 2px solid white;
+  font-size: 20px; /* Größere Schriftgröße */
+  border-radius: 10px;
+  background-color: #383838;
+  color: white;
+  padding: 20px 40px; /* Verdoppelte Größe der Buttons */
+  margin-top: 15px;
+  width: 100%; /* Breite auf 100% der Containerbreite setzen */
+  cursor: pointer;
+  transition: border-color 0.3s; /* Sanfter Übergang bei Randfarbe */
+  text-align: center;
+}
+
+/* Blauer Hover-Effekt für Umrandung */
+.registration input:hover {
+  border-color: #007bff; /* Blau für die Umrandung */
+}
+

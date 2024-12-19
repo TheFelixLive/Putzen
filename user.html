@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta name="theme-color" content="#383838">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wohnzimmer</title>
+    <link rel="icon" type="image/x-icon" href="icons/room_0_selected.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="heading">
+        <h1>Nutzer</h1>
+    </div>
+
+    <div class="description">
+        <p>Wer bist du?</p>
+    </div>
+
+    <div class="registration">
+        <form method="post" action="" id="registration-form">
+            <input id="registrieren-1" type="button" value="Jona" onclick="saveAndRedirect('room_0.html');" />
+            <input id="registrieren-2" type="button" value="Jan" onclick="saveAndRedirect('room_1.html');" />
+            <input id="registrieren-3" type="button" value="Leonie" onclick="saveAndRedirect('room_2.html');" />
+            <input id="registrieren-4" type="button" value="Nicoll" onclick="saveAndRedirect('room_3.html');" />
+            <input id="registrieren-5" type="button" value="Sascha" onclick="saveAndRedirect('room_4.html');" />
+        </form>
+    </div>
+
+    <script>
+        // Funktion zum Speichern der URL im Cookie und Weiterleitung
+        function saveAndRedirect(url) {
+            document.cookie = "redirect_url=" + encodeURIComponent(url) + "; path=/";
+            window.location.href = url; // Leitet zur gewünschten Seite weiter
+        }
+
+        // Funktion, um beim Laden der Seite die URL aus dem Cookie zu lesen und weiterzuleiten
+        window.onload = function() {
+            const cookie = document.cookie.split('; ').find(row => row.startsWith('redirect_url='));
+            if (cookie) {
+                const url = decodeURIComponent(cookie.split('=')[1]);
+                // Umleiten zur gespeicherten URL
+                window.location.href = url;
+            }
+        };
+    </script>
+</body>
+</html>

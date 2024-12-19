@@ -120,10 +120,25 @@ document.addEventListener('DOMContentLoaded', function () {
       item.style.setProperty('--i', index + 1); // Setzt die CSS-Variable für jedes Element
     });
     
+    var time = 0;
+    var finished = 1;
 
     // Zeigt Person und Zeitdifferenz an
     function update_subtitle() {
-        const timeDiff = calculateTime(true);
+        if (time > 1) {
+            show_person_and_time(finished);
+        } else if (finished == 1) {
+            document.getElementById("output").innerText = `Raum gesäubert!`;
+            time++
+        } else {
+            time = 3
+            show_person_and_time();
+        }
+
+    }
+
+    function show_person_and_time(finished) {
+        const timeDiff = calculateTime(finished);
         const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
 
         document.getElementById("output").innerText = `${person} - ${timeDiff}`;

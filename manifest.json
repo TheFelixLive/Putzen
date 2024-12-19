@@ -1,7 +1,7 @@
 {
   "name": "Putzplan",
   "short_name": "Putzplan",
-  "start_url": "room_0.html",
+  "start_url": "user.html",
   "display": "standalone",
   "background_color": "#383838",
   "theme_color": "#383838",
