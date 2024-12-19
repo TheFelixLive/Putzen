@@ -7,6 +7,7 @@
     <title>Wohnzimmer</title>
     <link rel="icon" type="image/x-icon" href="icons/room_0_selected.png">
     <link rel="stylesheet" href="style.css">
+    <script src="calculate.js"></script> <!-- Hier wird das externe JavaScript geladen -->
 </head>
 <body>
     <div class="heading">
@@ -19,30 +20,54 @@
 
     <div class="registration">
         <form method="post" action="" id="registration-form">
-            <input id="registrieren-1" type="button" value="Jona" onclick="saveAndRedirect('room_0.html');" />
-            <input id="registrieren-2" type="button" value="Jan" onclick="saveAndRedirect('room_1.html');" />
-            <input id="registrieren-3" type="button" value="Leonie" onclick="saveAndRedirect('room_2.html');" />
-            <input id="registrieren-4" type="button" value="Nicoll" onclick="saveAndRedirect('room_3.html');" />
-            <input id="registrieren-5" type="button" value="Sascha" onclick="saveAndRedirect('room_4.html');" />
+            <input id="registrieren-1" type="button" value="Jona" onclick="saveAndRedirect('Jona');" />
+            <input id="registrieren-2" type="button" value="Jan" onclick="saveAndRedirect('Jan');" />
+            <input id="registrieren-3" type="button" value="Leonie" onclick="saveAndRedirect('Leonie');" />
+            <input id="registrieren-4" type="button" value="Nicoll" onclick="saveAndRedirect('Nicoll');" />
+            <input id="registrieren-5" type="button" value="Sascha" onclick="saveAndRedirect('Sascha');" />
         </form>
     </div>
 
     <script>
-        // Funktion zum Speichern der URL im Cookie und Weiterleitung
-        function saveAndRedirect(url) {
-            document.cookie = "redirect_url=" + encodeURIComponent(url) + "; path=/";
-            window.location.href = url; // Leitet zur gewünschten Seite weiter
+        // Funktion zum Speichern des Namens der Person im Cookie und Weiterleitung
+        function saveAndRedirect(person) {
+            document.cookie = "person=" + encodeURIComponent(person) + "; path=/"; // Speichert den Namen der Person im Cookie
+            console.log(document.cookie.split('; ').find(row => row.startsWith('person=')));
+            window.location.href = "user.html"; // Weiterleitung zur 'redirect.html', um den Raum zu ermitteln
         }
-
-        // Funktion, um beim Laden der Seite die URL aus dem Cookie zu lesen und weiterzuleiten
-        window.onload = function() {
-            const cookie = document.cookie.split('; ').find(row => row.startsWith('redirect_url='));
+    
+        // Funktion, um beim Laden der Seite den Namen der Person aus dem Cookie zu lesen
+        window.onload = function read_cookie() {
+            const cookie = document.cookie.split('; ').find(row => row.startsWith('person='));
             if (cookie) {
-                const url = decodeURIComponent(cookie.split('=')[1]);
-                // Umleiten zur gespeicherten URL
-                window.location.href = url;
+                const person = decodeURIComponent(cookie.split('=')[1]);
+                const room = getRoomBasedOnPerson(person); // Raum für die Person ermitteln
+                if (room) {
+                    window.location.href = room + ".html"; // Weiterleitung zur Raum-Seite
+                }
             }
         };
-    </script>
+    
+        // Funktion, die den Raum basierend auf der Person und der Funktion aus calculate.js ermittelt
+        function getRoomBasedOnPerson(person) {
+            // Arrays von Räumen
+            const raeume = ['room_0', 'room_1', 'room_2', 'room_3', 'room_4'];
+    
+            // Iteriere durch alle Räume und prüfe, ob die Person zu diesem Raum gehört
+            for (let i = 0; i < raeume.length; i++) {
+                const room = raeume[i];
+    
+                // Aufruf der Funktion aus calculate.js, um die Person im aktuellen Raum zu überprüfen
+                const personInRoom = getPersonBasedOnTimeAndRoom(room);
+    
+                // Wenn die Person im Raum gefunden wird, gib den Raum zurück
+                if (personInRoom === person) {
+                    return room; // Der Raum, der die gesuchte Person enthält
+                }
+            }
+    
+            return room_5; // Falls die Person in keinem Raum gefunden wurde
+        }
+    </script>    
 </body>
 </html>

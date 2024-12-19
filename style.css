@@ -32,7 +32,7 @@ body {
 .task-list {
   width: 100%;        /* Die Liste füllt den Container */
   height: 100%;       /* Die Liste nimmt die gesamte Höhe des Containers ein */
-  font-size: 2rem;  /* Größere Schriftgröße */
+  font-size: 1.5rem;  /* Größere Schriftgröße */
   color: white;       /* Weiße Textfarbe */
   list-style-type: none;  /* Entfernt die Standard-Punkte */
   padding-left: 0;    /* Entfernt das Padding der Liste */
@@ -106,7 +106,7 @@ body {
 .task-list li::before {
   content: "• "; /* Setzt den Punkt vor jedes Listenelement */
   color: white;
-  font-size: 2.5rem; /* Gleiche Schriftgröße wie der Text */
+  font-size: 1.5rem; /* Gleiche Schriftgröße wie der Text */
   margin-right: 10px;
   position: absolute;
   left: 0;
@@ -220,4 +220,3 @@ body {
 .registration input:hover {
   border-color: #007bff; /* Blau für die Umrandung */
 }
-
