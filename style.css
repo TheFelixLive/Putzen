@@ -34,7 +34,7 @@ body {
   height: 100%;       /* Die Liste nimmt die gesamte Höhe des Containers ein */
   font-size: 1.5rem;  /* Größere Schriftgröße */
   color: white;       /* Weiße Textfarbe */
-  list-style-type: none;  /* Entfernt die Standard-Punkte */
+  list-style-type: circle;  /* Entfernt die Standard-Punkte */
   padding-left: 0;    /* Entfernt das Padding der Liste */
   overflow-y: auto;   /* Aktiviert das Scrollen, wenn der Inhalt zu groß ist */
   opacity: 0;         /* Anfangszustand unsichtbar */
@@ -101,17 +101,31 @@ body {
   }
 }
 
-
-/* Hinzufügen des "•" (Punktsymbol) vor jedem Listenelement */
-.task-list li::before {
-  content: "• "; /* Setzt den Punkt vor jedes Listenelement */
-  color: white;
-  font-size: 1.5rem; /* Gleiche Schriftgröße wie der Text */
-  margin-right: 10px;
-  position: absolute;
-  left: 0;
+/* Entfernen des Punktes für das letzte Listenelement */
+.task-list-btn {
+  margin-top: 20px; /* Abstand nach oben */
+  padding: 0; /* Kein Padding */
+  list-style-type: none; /* Entfernt das Punkt- oder Aufzählungssymbol */
 }
 
+/* Styling für den Button */
+.task-list-btn button {
+  border: 2px solid white;
+  font-size: 20px; /* Größere Schriftgröße */
+  border-radius: 10px;
+  background-color: transparent; /* Kein grauer Hintergrund */
+  color: white;
+  padding: 20px 40px; /* Größere Schaltflächen */
+  width: 100%; /* Füllt den Container aus */
+  cursor: pointer;
+  transition: border-color 0.3s; /* Sanfter Übergang bei Randfarbe */
+  text-align: center;
+}
+
+/* Hover-Effekt für den Button */
+.task-list-btn button:hover {
+  border-color: #007bff; /* Blau für die Umrandung */
+}
 
 
 

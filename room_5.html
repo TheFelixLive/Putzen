@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generell</title>
-    <link rel="icon" type="image/x-icon" href="icons/room_3_selected.png">
+    <link rel="icon" type="image/x-icon" href="icons/room_5_selected.png">
     <link rel="stylesheet" href="style.css">
     <style>
     body {
@@ -35,6 +35,9 @@
           <li>Tonnen rausstellen (S)</li>
           <li>Fesnster putzen (6 Wochen)</li>
           <li>Heizung putzen (1 Jahr)</li>
+          <li class="task-list-btn">
+            <button id="change_user" onclick="deleteAndRedirect()">Wechsel Nutzer</button>
+          </li>
         </ul>
       </div>
 
@@ -48,6 +51,36 @@
             <a href="room_4.html"><img src="icons/room_4.png"></a>
     </footer>
     <script src="animation.js"></script>
+    <script>
+        // Funktion zum Auslesen des Werts eines bestimmten Cookies
+        function getCookie() {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; person=`);
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
+            return null; // Gibt null zurück, wenn der Cookie nicht existiert
+        }
+
+        function deleteAndRedirect() {
+            const person = getCookie();
+            // Speichert den Namen der Person im Cookie
+            document.cookie = "person=" + encodeURIComponent(person) + "; path=/"; 
+            console.log("Gespeicherter person Cookie:", document.cookie.split('; ').find(row => row.startsWith('person=')));
+
+            // Liest den gespeicherten Wert des "person"-Cookies aus
+            const personCookie = getCookie("person");
+            console.log("Ausgelesener person Cookie:", personCookie);
+
+            // Optional: Du kannst den Cookie auch löschen, wenn du ihn nicht mehr benötigst
+            document.cookie = "person=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+            // Weiterleitung zur 'user.html'
+            window.location.href = "user.html"; 
+        }
+
+    </script>
+      
 
 </body>
 </html>
