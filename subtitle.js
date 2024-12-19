@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
     
-                return "Noch " + formatTime(days, hours, minutes, seconds) + " Zeit";
+                return "Verbleibende Zeit: " + formatTime(days, hours, minutes, seconds);
             } else {
                 // Fall 2: Zwischen Montag 13:00 und Freitag 9:00
                 // Berechne die vergangene Zeit seit dem letzten Montag 13:00
@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (time > 1) {
             show_person_and_time(finished);
         } else if (finished == 1) {
-            document.getElementById("output").innerText = `Raum gesäubert!`;
+            const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
+            document.getElementById("output").innerText = `${person} hat diesen Raum gesäubert!`;
             time++
         } else {
             time = 3
@@ -139,9 +140,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function show_person_and_time(finished) {
         const timeDiff = calculateTime(finished);
-        const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
 
-        document.getElementById("output").innerText = `${person} - ${timeDiff}`;
+        if (finished == 1) {
+            document.getElementById("output").innerText = `${timeDiff}`;
+        } else {
+            const person = getPersonBasedOnTimeAndRoom(document.body.getAttribute('data-room')); // Hole den Wert des data-room Attributs
+            document.getElementById("output").innerText = `${person} - ${timeDiff}`;
+        }
+        
     }
 
     update_subtitle();
