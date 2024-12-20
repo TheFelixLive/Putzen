@@ -31,16 +31,14 @@
     <script>
         // Funktion zum Speichern des Namens der Person im Cookie und Weiterleitung
         function saveAndRedirect(person) {
-            document.cookie = "person=" + encodeURIComponent(person) + "; path=/"; // Speichert den Namen der Person im Cookie
-            console.log(document.cookie.split('; ').find(row => row.startsWith('person=')));
+            localStorage.setItem('username', person);
             window.location.href = "user.html"; // Weiterleitung zur 'redirect.html', um den Raum zu ermitteln
         }
     
         // Funktion, um beim Laden der Seite den Namen der Person aus dem Cookie zu lesen
         window.onload = function read_cookie() {
-            const cookie = document.cookie.split('; ').find(row => row.startsWith('person='));
-            if (cookie) {
-                const person = decodeURIComponent(cookie.split('=')[1]);
+            const person = localStorage.getItem('username')
+            if (person) {
                 const room = getRoomBasedOnPerson(person); // Raum für die Person ermitteln
                 if (room) {
                     window.location.href = room + ".html"; // Weiterleitung zur Raum-Seite

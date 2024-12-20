@@ -52,31 +52,9 @@
     </footer>
     <script src="animation.js"></script>
     <script>
-        // Funktion zum Auslesen des Werts eines bestimmten Cookies
-        function getCookie() {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; person=`);
-            if (parts.length === 2) {
-                return parts.pop().split(';').shift();
-            }
-            return null; // Gibt null zurück, wenn der Cookie nicht existiert
-        }
-
         function deleteAndRedirect() {
-            const person = getCookie();
-            // Speichert den Namen der Person im Cookie
-            document.cookie = "person=" + encodeURIComponent(person) + "; path=/"; 
-            console.log("Gespeicherter person Cookie:", document.cookie.split('; ').find(row => row.startsWith('person=')));
-
-            // Liest den gespeicherten Wert des "person"-Cookies aus
-            const personCookie = getCookie("person");
-            console.log("Ausgelesener person Cookie:", personCookie);
-
-            // Optional: Du kannst den Cookie auch löschen, wenn du ihn nicht mehr benötigst
-            document.cookie = "person=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-
-            // Weiterleitung zur 'user.html'
-            window.location.href = "user.html"; 
+            localStorage.removeItem('username');
+            window.location.href = "user.html";
         }
 
     </script>

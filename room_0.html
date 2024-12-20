@@ -30,7 +30,9 @@
           <li>Decke entstauben</li>
           <li>Lichtschalter entstauben</li>
           <li>Boden wischen</li>
-          <!-- Weitere Listeneinträge -->
+          <li class="task-list-btn">
+            <button id="cleaned_room_button" onclick="cleaned_room()">Raum gesäubert</button>
+          </li>
         </ul>
       </div>
       
@@ -49,5 +51,24 @@
     <script src="subtitle.js"></script>
     <script src="animation.js"></script>
     <script src="calculate.js"></script>
+    <script src="handel_api_requests.js"></script>
+    <script>
+        // Disable "cleand_room" if the another person accesses the page
+        window.onload = function() {
+            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_0") && is_room_finished() !== 1) {
+            document.getElementById('cleaned_room_button').style.display = 'inline-block'
+            } else {
+                document.getElementById('cleaned_room_button').style.display = 'none'
+            }
+        };
+
+        function cleaned_room() {
+            const status = save_finished_room("room_0");
+            if (status) {
+                // Show cleand_room animation
+            }
+            window.location.href = "room_0.html"
+        }
+    </script>
 </body>
 </html>
