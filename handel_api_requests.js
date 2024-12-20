@@ -1,47 +1,54 @@
-function save_finished_room(room) {
-    // API-Aufruf zum Speichern des Raumstatus
-    fetch('http://<raspberry-pi-ip>:3000/saveRoom', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ room: room }),
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data === 'Raum erfolgreich gespeichert.') {
-            console.log(`Raum ${room} wurde erfolgreich gespeichert.`);
-            return true
+async function save_finished_room(room) {
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 100); // Timeout nach 1 Sekunde
+        
+        const response = await fetch('http://192.168.178.111:3000/saveRoom', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ room: room }),
+            signal: controller.signal  // Abbruchsignal für fetch
+        });
+
+        clearTimeout(timeoutId);  // Timeout wird abgebrochen, wenn die Anfrage rechtzeitig zurückkommt
+
+        if (response.ok) {
+            const data = await response.json();
+            return data.success; // Gibt "true" zurück, wenn erfolgreich gespeichert
         } else {
-            console.log('Fehler beim Speichern des Raums:', data);
-            return undefined
+            return undefined; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
         }
-    })
-    .catch(error => {
-        console.error('Fehler beim API-Aufruf:', error);
-        return undefined
-    });
+    } catch (error) {
+        // Fehlerbehandlung für fetch, Timeout oder Netzwerkfehler
+        return undefined;
+    }
 }
 
 
-function is_room_finished(room) {
-    // API-Aufruf zum Abfragen des Raumstatus
-    fetch(`http://<raspberry-pi-ip>:3000/getRoomStatus?room=${room}`)
-        .then(response => {
-            if (response.status === 400) {
-                console.log('Ungültiger Raumwert');
-                return undefined;
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data) {
-                console.log(`Raum ${room} ist ${data.finished ? 'abgeschlossen' : 'nicht abgeschlossen'}`);
-                return data.finished;
-            }
-        })
-        .catch(error => {
-            console.error('Fehler beim API-Aufruf:', error);
-            return undefined;
+
+
+async function is_room_finished(room) {
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 100); // Timeout nach 1 Sekunde
+        
+        const response = await fetch(`http://192.168.178.111:3000/getRoomStatus?room=${room}`, {
+            method: 'GET',
+            signal: controller.signal  // Abbruchsignal für fetch
         });
+
+        clearTimeout(timeoutId);  // Timeout wird abgebrochen, wenn die Anfrage rechtzeitig zurückkommt
+
+        if (response.ok) {
+            const data = await response.json();
+            return data.finished; // Gibt den Status des Raums zurück (true/false)
+        } else {
+            return undefined; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
+        }
+    } catch (error) {
+        // Fehlerbehandlung für fetch, Timeout oder Netzwerkfehler
+        return undefined;
+    }
 }

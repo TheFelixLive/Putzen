@@ -62,12 +62,13 @@
     <script src="confetti.js"></script>
     <script>
         // Disable "cleand_room" if the another person accesses the page
-        window.onload = function() {
-            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_3") && is_room_finished("room_3") != 1) {
-                if (is_room_finished("room_3") == undefined) {
+        window.onload = async function() {
+            var roomstatus = await is_room_finished("room_3");
+            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_3") && roomstatus !== true) {
+                if (roomstatus == undefined) {
                     document.getElementById("cleaned_room_button").innerText = "Nicht verfügbar";
                     document.getElementById("cleaned_room_button").disabled = true;
-                } // otherwise the button is visable
+                }
             } else {
                 document.getElementById('cleaned_room_button').style.display = 'none'
             }

@@ -1,9 +1,9 @@
 // "calculation.js" and "handel_api_requests.js" must also be loaded
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
 
     const room = document.body.getAttribute('data-room');
     const person = getPersonBasedOnTimeAndRoom(room); // Hole den Wert des data-room Attributs
-    const finished = is_room_finished(room);
+    const finished = await is_room_finished(room);
     var time = 0;
 
     // Zeigt Person und Zeitdifferenz an
