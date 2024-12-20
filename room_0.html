@@ -25,11 +25,12 @@
 
     <div class="task-list-container">
         <ul class="task-list">
-          <li>Aufräumen</li>
-          <li>Pflanzengießen</li>
-          <li>Decke entstauben</li>
           <li>Lichtschalter entstauben</li>
+          <li>Decke entstauben</li>
+          <li>Pflanzen gießen</li>
           <li>Boden wischen</li>
+          <li>Aufräumen</li>
+          <li>usw.</li>
           <li class="task-list-btn">
             <button id="cleaned_room_button" onclick="cleaned_room()">Raum gesäubert</button>
           </li>
@@ -52,11 +53,15 @@
     <script src="animation.js"></script>
     <script src="calculate.js"></script>
     <script src="handel_api_requests.js"></script>
+    <script src="confetti.js"></script>
     <script>
         // Disable "cleand_room" if the another person accesses the page
         window.onload = function() {
-            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_0") && is_room_finished() !== 1) {
-            document.getElementById('cleaned_room_button').style.display = 'inline-block'
+            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_0") && is_room_finished("room_0") != 1) {
+                if (is_room_finished("room_0") == undefined) {
+                    document.getElementById("cleaned_room_button").innerText = "Nicht verfügbar";
+                    document.getElementById("cleaned_room_button").disabled = true;
+                } // otherwise the button is visable
             } else {
                 document.getElementById('cleaned_room_button').style.display = 'none'
             }
@@ -65,9 +70,12 @@
         function cleaned_room() {
             const status = save_finished_room("room_0");
             if (status) {
-                // Show cleand_room animation
+                document.getElementById("cleaned_room_button").disabled = true;
+                createConfetti("room_0");
+            } else {
+                window.location.href = "room_0.html"
             }
-            window.location.href = "room_0.html"
+            
         }
     </script>
 </body>

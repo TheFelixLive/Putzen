@@ -127,6 +127,14 @@ body {
   border-color: #007bff; /* Blau für die Umrandung */
 }
 
+/* Styling für den deaktivierten Button */
+.task-list-btn button:disabled {
+  color: #666666; /* Graue Schriftfarbe */
+  cursor: not-allowed; /* Ändert den Mauszeiger zu einem "Nicht erlaubt"-Zeichen */
+  border-color: #999999; /* Graue Randfarbe */
+}
+
+
 
 
 /* Navigationsleiste unten fixieren */
@@ -233,4 +241,50 @@ body {
 /* Blauer Hover-Effekt für Umrandung */
 .registration input:hover {
   border-color: #007bff; /* Blau für die Umrandung */
+}
+
+
+/* Konfetti-Elemente */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #FF6347; /* Standardfarbe, kann später geändert werden */
+  opacity: 0; /* Startwert ist unsichtbar */
+  border-radius: 50%;
+  animation: fall 3s, float 3s ease-in-out infinite; /* Beide Animationen werden angewendet */
+}
+
+/* Animation für das Fallen der Konfetti-Elemente */
+@keyframes fall {
+  0% {
+      top: -50px; /* Konfetti startet außerhalb des sichtbaren Bereichs oben */
+      opacity: 0; /* Unsichtbar zu Beginn */
+  }
+  1% {
+      opacity: 1; /* Sofort sichtbar zu Beginn der Animation */
+  }
+  100% {
+      top: 100vh; /* Ende am unteren Bildschirmrand */
+      opacity: 0; /* Wird wieder unsichtbar am Ende der Animation */
+  }
+}
+
+/* Animation für das Schwingen der Konfetti-Elemente */
+@keyframes float {
+  0% {
+      transform: translateX(0) rotate(0deg);
+  }
+  25% {
+      transform: translateX(var(--random-x1)) rotate(45deg);
+  }
+  50% {
+      transform: translateX(var(--random-x2)) rotate(0deg);
+  }
+  75% {
+      transform: translateX(var(--random-x3)) rotate(-45deg);
+  }
+  100% {
+      transform: translateX(0) rotate(0deg);
+  }
 }

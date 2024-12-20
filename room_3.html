@@ -29,14 +29,17 @@
 
     <div class="task-list-container">
         <ul class="task-list">
-          <li>Mülleimer reinigen</li>
+          <li>Kaffeemaschine reinigen (3 Wochen; S, L, Ja)</li>
+          <li>DAH-Gitter in die Spülmaschine (6 Wochen)</li>
+          <li>Spülmaschine Sumpf reinigen</li>
           <li>Wasserkocher entkalken</li>
+          <li>Lichtschalter entstauben</li>
           <li>Toaster entkrümeln</li>
-          <li>Spülmaschiensumpf reinigen</li>
-          <li>Kaffeemaschine reinigen (3 Wochen)</li>
-          <li>DAH-Gitter in die Spülmaschiene (6 Wochen)</li>
+          <li>Mülleimer reinigen</li>
           <li>Decke entstauben</li>
           <li>Boden wischen</li>
+          <li>Aufräumen</li>
+          <li>usw.</li>
           <li class="task-list-btn">
             <button id="cleaned_room_button" onclick="cleaned_room()">Raum gesäubert</button>
           </li>
@@ -56,11 +59,15 @@
     <script src="animation.js"></script>
     <script src="calculate.js"></script>
     <script src="handel_api_requests.js"></script>
+    <script src="confetti.js"></script>
     <script>
         // Disable "cleand_room" if the another person accesses the page
         window.onload = function() {
-            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_3") && is_room_finished() !== 1) {
-            document.getElementById('cleaned_room_button').style.display = 'inline-block'
+            if (localStorage.getItem('username') == getPersonBasedOnTimeAndRoom("room_3") && is_room_finished("room_3") != 1) {
+                if (is_room_finished("room_3") == undefined) {
+                    document.getElementById("cleaned_room_button").innerText = "Nicht verfügbar";
+                    document.getElementById("cleaned_room_button").disabled = true;
+                } // otherwise the button is visable
             } else {
                 document.getElementById('cleaned_room_button').style.display = 'none'
             }
@@ -69,9 +76,12 @@
         function cleaned_room() {
             const status = save_finished_room("room_3");
             if (status) {
-                // Show cleand_room animation
+                document.getElementById("cleaned_room_button").disabled = true;
+                createConfetti("room_3");
+            } else {
+                window.location.href = "room_3.html"
             }
-            window.location.href = "room_3.html"
+            
         }
     </script>
 
