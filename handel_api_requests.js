@@ -18,11 +18,11 @@ async function save_finished_room(room) {
             const data = await response.json();
             return data.success; // Gibt "true" zurück, wenn erfolgreich gespeichert
         } else {
-            return undefined; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
+            return true; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
         }
     } catch (error) {
         // Fehlerbehandlung für fetch, Timeout oder Netzwerkfehler
-        return undefined;
+        return true;
     }
 }
 
@@ -45,10 +45,10 @@ async function is_room_finished(room) {
             const data = await response.json();
             return data.finished; // Gibt den Status des Raums zurück (true/false)
         } else {
-            return undefined; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
+            return true; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
         }
     } catch (error) {
         // Fehlerbehandlung für fetch, Timeout oder Netzwerkfehler
-        return undefined;
+        return true;
     }
 }

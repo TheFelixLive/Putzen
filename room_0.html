@@ -70,7 +70,7 @@
 
         async function cleaned_room() {
             const status = await save_finished_room("room_0");
-            if (!status) {
+            if (status) {
                 document.getElementById("cleaned_room_button").disabled = true;
                 if (navigator.vibrate) {
                         navigator.vibrate(200);
