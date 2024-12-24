@@ -156,7 +156,7 @@ body {
 #navigation img {
   max-width: 100%;
   margin-bottom: 0vh;
-  height: 70%; /* Höhe der Icons */
+  height: 90%; /* Höhe der Icons */
   transition: transform 0.2s; /* Sanfte Animation beim Hover */
 }
 
