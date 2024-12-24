@@ -154,9 +154,9 @@ body {
 
 /*anpassung der icons in der navigationsleiste*/
 #navigation img {
-  margin-bottom: 3vh;
-  width: 15vw; /* Breite der Icons */
-  height: 15vw; /* Höhe der Icons */
+  max-width: 100%;
+  margin-bottom: 0vh;
+  height: 70%; /* Höhe der Icons */
   transition: transform 0.2s; /* Sanfte Animation beim Hover */
 }
 
