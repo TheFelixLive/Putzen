@@ -70,8 +70,13 @@
 
         async function cleaned_room() {
             const status = await save_finished_room("room_0");
-            if (status) {
+            if (!status) {
                 document.getElementById("cleaned_room_button").disabled = true;
+                if (navigator.vibrate) {
+                        navigator.vibrate(200);
+                    } else {
+                        alert('Vibration API is not supported on this device.');
+                    }
                 createConfetti("room_0");
             } else {
                 window.location.href = "room_0.html"
