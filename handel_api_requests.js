@@ -3,7 +3,7 @@ async function save_finished_room(room) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 500); // Timeout nach 1 Sekunde
         
-        const response = await fetch('http://93.222.38.106:3000/saveRoom', {
+        const response = await fetch('http://93.222.38.106:1000/saveRoom', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ async function is_room_finished(room) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 500); // Timeout nach 1 Sekunde
         
-        const response = await fetch(`http://93.222.38.106:3000/getRoomStatus?room=${room}`, {
+        const response = await fetch(`http://93.222.38.106:1000/getRoomStatus?room=${room}`, {
             method: 'GET',
             signal: controller.signal  // Abbruchsignal für fetch
         });

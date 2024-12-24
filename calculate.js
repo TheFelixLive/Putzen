@@ -1,42 +1,59 @@
-// Listen von Personen und Räumen
-const personen = ['Jona', 'Nicoll', 'Jan', 'Leonie', 'Sascha'];
-const raeume = ['room_0', 'room_1', 'room_2', 'room_3', 'room_4'];
+// Wöchentliche Zuweisungen für 5 Wochen
+const weeklyAssignments = [
+    ['Nicoll', 'Jan', 'Leonie', 'Sascha', 'Jona'],   // 1. Woche
+    ['Jona', 'Nicoll', 'Jan', 'Leonie', 'Sascha'],   // 2. Woche
+    ['Sascha', 'Jona', 'Nicoll', 'Jan', 'Leonie'],    // 3. Woche
+    ['Leonie', 'Sascha', 'Jona', 'Nicoll', 'Jan'],    // 4. Woche
+    ['Jan', 'Leonie', 'Sascha', 'Jona', 'Nicoll'],    // 5. Woche
+];
 
-// Berechnet die Kalenderwoche basierend auf dem Datum
-function getISOWeek(date) {
-    const tempDate = new Date(date.getTime());
-    tempDate.setDate(tempDate.getDate() - tempDate.getDay() + 5); // Setze auf den ersten Freitag
-    const firstMonday = new Date(tempDate.getFullYear(), 0, 1);
-    const dayOfYear = Math.floor((tempDate - firstMonday) / (1000 * 3600 * 24));
-    return Math.floor(dayOfYear / 7) + 1;
-}
-
-// Berechnet, ob der aktuelle Zeitpunkt vor oder nach dem nächsten Freitag um 9:00 Uhr liegt
-function isBeforeFridayNineAM() {
+// Funktion, die die aktuelle Woche basierend auf dem aktuellen Datum und der Uhrzeit berechnet
+function getCurrentWeek() {
     const now = new Date();
-    const friday9AM = new Date(now);
-    
-    // Setze auf den kommenden Freitag
-    friday9AM.setDate(now.getDate() + ((5 - now.getDay() + 7) % 7)); // Nächster Freitag
-    friday9AM.setHours(9, 0, 0, 0); // Setze die Uhrzeit auf 9:00 Uhr
+    const currentDay = now.getDay();  // Wochentag (0 = Sonntag, 1 = Montag, ..., 5 = Freitag)
+    const currentHour = now.getHours();  // Aktuelle Stunde (0-23)
+    const startDate = new Date(2024, 0, 1);  // 1. Januar 2024
+    const daysPassed = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+    const currentWeekIndex = Math.floor(daysPassed / 7) % weeklyAssignments.length;
 
-    return now < friday9AM;
+    // Wenn Freitag nach 9:00 Uhr oder Samstag/Sonntag, nutze aktuelle Woche
+    if ((currentDay === 5 && currentHour >= 9) || currentDay === 6 || currentDay === 0) {
+        return currentWeekIndex;
+    }
+
+    // Sonst, wenn Montag bis Donnerstag vor 9:00 Uhr, nutze letzte Woche
+    if (currentDay !== 5 || currentHour < 9) {
+        return (currentWeekIndex - 1 + weeklyAssignments.length) % weeklyAssignments.length;
+    }
+
+    // Fallback: Aktuelle Woche (für Freitag vor 9:00 Uhr)
+    return currentWeekIndex;
 }
 
-// Berechnet die Person basierend auf dem aktuellen Datum und der Woche
+
+// Funktion, die die Person basierend auf der aktuellen Woche und dem Raum auswählt
 function getPersonBasedOnTimeAndRoom(room) {
-    const unixTimestamp = Math.floor(Date.now() / 1000);  // Unix-Zeit in Sekunden
-    const date = new Date(unixTimestamp * 1000);  // Unix-Zeitstempel in Datum umwandeln
-    const currentWeek = getISOWeek(date);  // Korrekte Kalenderwoche berechnen
-    const roomIndex = raeume.indexOf(room);  // Finde den Index des Raums in der Liste
-
-    // Prüfe, ob der Zeitpunkt vor oder nach dem nächsten Freitag um 9:00 Uhr liegt
-    const weekOffset = isBeforeFridayNineAM() ? currentWeek + 1 : currentWeek; // Wenn noch vor Freitag 9:00 Uhr, dann vorige Woche
-
-    // Berechne den Person-Index je nach Woche
-    const personIndex = (roomIndex + weekOffset) % personen.length;
-
-    return personen[personIndex];
+    // Berechne die aktuelle Woche
+    const currentWeekIndex = getCurrentWeek();
+    
+    // Zuordnung der Räume zu den Indizes in weeklyAssignments (0 basierend)
+    const roomAssignments = {
+        'room_0': 0,  // Index für Room 0
+        'room_1': 1,  // Index für Room 1
+        'room_2': 2,  // Index für Room 2
+        'room_3': 3,  // Index für Room 3
+        'room_4': 4,  // Index für Room 4
+    };
+    
+    // Hole den Index der Person, die dem Raum in der aktuellen Woche zugewiesen ist
+    const personIndex = roomAssignments[room];
+    
+    // Gib die entsprechende Person basierend auf der aktuellen Woche und dem Raum zurück
+    if (personIndex !== undefined) {
+        return weeklyAssignments[currentWeekIndex][personIndex];
+    } else {
+        return 'Unbekannter Raum';  // Falls der Raum nicht gefunden wird
+    }
 }
 
 
