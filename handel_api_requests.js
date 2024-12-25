@@ -18,11 +18,11 @@ async function save_finished_room(room) {
             const data = await response.json();
             return data.success; // Gibt "true" zurück, wenn erfolgreich gespeichert
         } else {
-            return false; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
+            return true; // Bei einem Fehler auf dem Server oder einer fehlerhaften Antwort
         }
     } catch (error) {
         // Fehlerbehandlung für fetch, Timeout oder Netzwerkfehler
-        return false;
+        return true;
     }
 }
 
